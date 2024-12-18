@@ -1,0 +1,98 @@
+const User = require('../models/user');
+const Chat = require('../models/chat');
+
+async function add(req,res) {
+    try {
+          console.log(req.body)
+           const user = new User(req.body); 
+           await user.save()
+        res.status(200).json(user);
+    }
+    catch (err) {
+        console.log(err);
+    }     
+} ;
+
+async function findAll(req,res) {
+    try {
+        
+       var user=await User.find()
+        res.status(200).json(user);
+    }
+    catch (err) {
+        console.log(err);
+    }  
+};
+
+async function findOneByName (req,res) {
+    try {
+        
+       var user=await User.findOne({username:req.params.username})
+        res.status(200).json(user);
+    }
+    catch (err) {
+        console.log(err);
+    }  
+};
+
+async function showAllByName (req,res) {
+    try {
+        
+       var user=await User.find({username:req.params.username})
+        res.status(200).json(user);
+    }
+    catch (err) {
+        console.log(err);
+    }  
+} ;
+
+
+async function showByID (req,res) {
+    try {
+        
+       var user=await User.findById(req.params.id)
+        res.status(200).json(user);
+    }
+    catch (err) {
+        console.log(err);
+    }  
+} ;
+
+async function update(req,res)  {
+    try {
+        
+       var user=await User.findByIdAndUpdate(req.params.id,req.body,{
+        new:true,
+       });
+        res.status(200).json(user);
+    }
+    catch (err) {
+        console.log(err);
+    }  
+} ;
+
+async function deleteUser (req,res) {
+    try {
+        
+       var user=await User.findByIdAndDelete(req.params.id);
+        res.status(200).send("user deleted");
+    }
+    catch (err) {
+        console.log(err);
+    }  
+};
+
+async function addChat(data) {
+    try {
+           const chat = new Chat({msg:data.msg}); 
+           await chat.save()
+    }
+    catch (err) {
+        console.log(err);
+    }     
+} ;
+
+
+module.exports = {add,findAll,findOneByName,showAllByName,showByID
+    ,update,deleteUser,addChat
+}
